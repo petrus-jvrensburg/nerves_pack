@@ -36,25 +36,30 @@ config :shoehorn,
   app: Mix.Project.config()[:app]
 ```
 
-## SSH port
+## SSH
 
-By default, `nerves_pack` will start an IEx console on port 22, this can be
-overridden by specifying `:ssh_port` in the config. The SFTP subsystem is also
-enabled so that you can transfer files back and forth as well. To disable this
-feature, set `:ssh_port` to `nil`.  This console will use the same ssh public
-keys as those configured for `:nerves_firmware_ssh` (see [the
+`nerves_pack` depends on
+[`nerves_ssh`](https://github.com/nerves-project/nerves_ssh). `nerves_ssh`
+starts up an SSH server on port 22 (the default SSH port) that provides an IEx
+console and firmware update support.
+
+By default, the Nerves new project generator creates projects that include your
+SSH public key (from `~/.ssh/id_rsa`, etc.) in your `config.exs` under either
+the `nerves_ssh` configuration or the `nerves_firmware_ssh` configuration if
+using an old project generator. This allows you to log into your Nerves devices,
+but no one else. See [the
 docs](https://hexdocs.pm/nerves_firmware_ssh/readme.html#installation) for how
 to configure your keys). Usernames are ignored.
-
-```elixir
-config :nerves_pack, ssh_port: 2222
-```
 
 Connect by running:
 
 ```bash
 ssh nerves.local
 ```
+
+If your computer has trouble with mDNS, you may need to replace `nerves.local`
+with the device's IP address. This is more of an issue on Windows than Linux or
+OSX. See your router or use a port scanner like `nmap` to find the device.
 
 To exit the SSH session, type `exit` or type the ssh escape sequence `~.` . (See
 the [ssh man page](https://linux.die.net/man/1/ssh) for other escape sequences).

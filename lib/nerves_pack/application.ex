@@ -6,9 +6,6 @@ defmodule NervesPack.Application do
   def start(_type, _args) do
     _ = configure_mdns()
 
-    # ssh_port = Application.get_env(:nerves_pack, :ssh_port, 22)
-
-    # [{NervesPack.SSH, %{ssh_port: ssh_port}}]
     children = []
 
     opts = [strategy: :one_for_one, name: NervesPack.Supervisor]
